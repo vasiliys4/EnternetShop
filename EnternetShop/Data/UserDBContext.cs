@@ -8,7 +8,7 @@ namespace EnternetShop.Data
     {
         public UserDBContext(DbContextOptions<UserDBContext> options) : base(options)
         {
-            Database.Migrate();
+            Database.EnsureCreated();
         }
     }
 }

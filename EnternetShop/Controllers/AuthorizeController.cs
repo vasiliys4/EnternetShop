@@ -1,4 +1,5 @@
-﻿using EnternetShop.Models;
+﻿using EnternetShop.Extention;
+using EnternetShop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,18 +16,18 @@ namespace EnternetShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = _signManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false).Result;
+                var result = await _signManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
@@ -58,20 +59,20 @@ namespace EnternetShop.Controllers
 
 
         [HttpPost]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = new UserForDB { Email = model.Email, UserName = model.Email };
-                var result = _userManager.CreateAsync(user, model.Password).Result;
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    _signManager.SignInAsync(user, false);
+                    await _signManager.SignInAsync(user, false);
                     return RedirectToAction("Login");
                 }
                 else
                 {
-                    //result.AddErrorsTo(ModelState);
+                    result.AddErrorsTo(ModelState);
                 }
             }
             return View(model);
