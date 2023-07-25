@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EnternetShop.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    public class AdminControler : Controller
+    //[Authorize(Roles ="Admin")]
+    public class AdminController : Controller
     {
         private readonly IProductRepository _productRepository;
-        public AdminControler(IProductRepository productRepository)
+        public AdminController(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
@@ -17,11 +17,16 @@ namespace EnternetShop.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult AddProduct(Product product)
+        [HttpGet]
+        public IActionResult AddProduct()
         {
-            _productRepository.Create(product);
-            return RedirectToAction("AddProduct");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(Product product)
+        {
+            await _productRepository.Create(product);
+            return RedirectToAction("Index");
         }
     }
 }

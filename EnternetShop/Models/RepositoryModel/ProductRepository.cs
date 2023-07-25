@@ -10,21 +10,21 @@ namespace EnternetShop.Models.RepositoryModel
         {
             this.context = context;
         }
-        public void Create(Product product)
+
+        public async Task Create(Product product)
         {
-            context.Products.Add(product);
-            context.SaveChanges();
+            await context.Products.AddAsync(product);
+            await context.SaveChangesAsync();
         }
 
-        public List<Product> GetAll()
+        public async Task<List<Product>> GetAll()
         {
-            return context.Products.AsNoTracking().ToList();
+            return await context.Products.ToListAsync();
         }
 
         public Product GetById(Guid id)
-        {
-            var allProducts = GetAll();
-            return allProducts.FirstOrDefault(p => p.ProductId == id);
+        {            
+            return context.Products.FirstOrDefault(p => p.ProductId == id);
         }
     }
 }

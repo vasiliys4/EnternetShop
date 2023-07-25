@@ -2,8 +2,8 @@
 {
     public interface IProductRepository
     {
-        List<Product> GetAll();
+        Task<List<Product>> GetAll();
         Product GetById(Guid id);
-        void Create(Product product);
+        Task Create(Product product);
     }
 }
