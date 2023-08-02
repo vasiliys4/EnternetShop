@@ -1,4 +1,4 @@
-﻿using EnternetShop.Models;
+﻿using EnternetShop.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-namespace EnternetShop.Models
+namespace EnternetShop.Models.ViewModels
 {
     public class ErrorViewModel
     {

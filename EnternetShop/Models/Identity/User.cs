@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EnternetShop.Models
+namespace EnternetShop.Models.Identity
 {
     public class User
     {

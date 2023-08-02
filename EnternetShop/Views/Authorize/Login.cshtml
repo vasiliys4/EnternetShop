@@ -1,4 +1,4 @@
-﻿@model EnternetShop.Models.LoginViewModel
+﻿@model EnternetShop.Models.ViewModels.LoginViewModel
 
 <body class="text-center">
     <div class="album py-5">
@@ -20,8 +20,7 @@
                     <input asp-for="RememberMe" type="checkbox" /> Запомнить меня?
                 </label>
             </div>
-            @*<button class="btn btn-dark col-md-3" type="submit">Войти</button>*@
-            <input type="submit" value="Войти" />
+            <button class="btn btn-dark col-md-3" type="submit">Войти</button>
             <div class="album py-1"></div>
             <a style="color:black" asp-action="Register">Регистрация нового пользвателя</a>
         </form>

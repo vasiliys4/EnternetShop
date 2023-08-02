@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace EnternetShop.Models
+namespace EnternetShop.Models.Identity
 {
     public class UserForDB : IdentityUser
     {

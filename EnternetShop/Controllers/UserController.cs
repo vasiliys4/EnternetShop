@@ -1,5 +1,6 @@
 ﻿using EnternetShop.Extention;
 using EnternetShop.Models;
+using EnternetShop.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
