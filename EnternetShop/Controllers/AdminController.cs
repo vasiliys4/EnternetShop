@@ -2,6 +2,7 @@
 using EnternetShop.Models.Identity;
 using EnternetShop.Models.RepositoryModel;
 using EnternetShop.Models.ViewModels;
+using EnternetShop.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,16 @@ namespace EnternetShop.Controllers
     [Authorize(Roles ="admin")]
     public class AdminController : Controller
     {
-        private readonly IProductRepository _productRepository;
+        private readonly ProductService _productService;
         private readonly UserManager<UserForDB> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AdminController(IProductRepository productRepository, UserManager<UserForDB> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly OrderService _orderService;
+        public AdminController(ProductService productService, UserManager<UserForDB> userManager, RoleManager<IdentityRole> roleManager, OrderService orderService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
             _userManager = userManager;
             _roleManager = roleManager;
+            _orderService = orderService;
         }
         public IActionResult Index()
         {
@@ -30,10 +33,10 @@ namespace EnternetShop.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddProduct(Product product)
+        public async Task<IActionResult> AddProduct(ProductViewModel product)
         {
-            await _productRepository.Create(product);
-            return RedirectToAction("Index");
+            await _productService.Create(product);
+            return RedirectToAction("AddProduct");
         }
         [HttpGet]
         public IActionResult GetUsers() => View(_userManager.Users.ToList());
@@ -46,7 +49,7 @@ namespace EnternetShop.Controllers
         {
             if (!string.IsNullOrEmpty(name))
             {
-                IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
+                var result = await _roleManager.CreateAsync(new IdentityRole(name));
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
@@ -62,29 +65,27 @@ namespace EnternetShop.Controllers
             return View(name);
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-            IdentityRole role = await _roleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id);
             if (role != null)
             {
-                IdentityResult result = await _roleManager.DeleteAsync(role);
+                await _roleManager.DeleteAsync(role);
             }
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
         public IActionResult UserList() => View(_userManager.Users.ToList());
-
+        [HttpGet]
         public async Task<IActionResult> Edit(string userId)
         {
-            // получаем пользователя
-            UserForDB user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                // получем список ролей пользователя
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var allRoles = _roleManager.Roles.ToList();
-                ChangeRoleViewModel model = new ChangeRoleViewModel
+                var model = new ChangeRoleViewModel
                 {
                     UserId = user.Id,
                     UserEmail = user.Email,
@@ -99,17 +100,11 @@ namespace EnternetShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
-            // получаем пользователя
-            UserForDB user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                // получем список ролей пользователя
                 var userRoles = await _userManager.GetRolesAsync(user);
-                // получаем все роли
-                var allRoles = _roleManager.Roles.ToList();
-                // получаем список ролей, которые были добавлены
                 var addedRoles = roles.Except(userRoles);
-                // получаем роли, которые были удалены
                 var removedRoles = userRoles.Except(roles);
 
                 await _userManager.AddToRolesAsync(user, addedRoles);
@@ -120,6 +115,31 @@ namespace EnternetShop.Controllers
             }
 
             return NotFound();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderService.GetAll();
+            if (orders == null)
+            {
+                Redirect("Admin/Index");
+            }
+            return View(orders);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetOrder(Guid id)
+        {
+            var order = await _orderService.GetOrder(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+        public async Task<IActionResult> ChangeOrderStatus(string status, Guid id)
+        {
+            await _orderService.ChangeStatus(status, id);
+            return RedirectToAction("GetOrder", new { id });
         }
     }
 }

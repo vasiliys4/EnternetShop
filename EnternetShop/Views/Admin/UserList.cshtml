@@ -1,11 +1,9 @@
 ﻿@model IEnumerable<EnternetShop.Models.Identity.UserForDB>
 
-<h2>Список пользователей</h2>
-
 <div class="row">
     <div class="col-md-3">
         <div class="list-group my-4">
-            <a asp-action="GetOrders" class="list-group-item list-group-item-action">Заказы</a>
+            <a asp-action="GetAllOrders" class="list-group-item list-group-item-action">Заказы</a>
             <a asp-action="UserList" class="list-group-item list-group-item-action">Пользователи</a>
             <a asp-action="GetRole" class="list-group-item list-group-item-action">Роли</a>
             <a asp-action="AddProduct" class="list-group-item list-group-item-action">Добавление товаров</a>
@@ -14,18 +12,22 @@
     <div class="col-md-9">
         <div class="card my-4">
             <div class="card-body">
-        <table class="table">
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.Email</td>
-                    <td>
-                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
-                    </td>
-                </tr>
-            }
-        </table>
-        </div>
+                <div class="col-lg-12">
+                    <h4>Список пользователей</h4>
+                    <hr />
+                </div>
+                <table class="table">
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Email</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </div>
     </div>
 </div>

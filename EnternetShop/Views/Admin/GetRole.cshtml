@@ -1,20 +1,45 @@
 ﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
 
-<h2>Список ролей</h2>
-<table class="table">
-    @foreach (var role in Model)
-    {
-        <tr>
-            <td>@role.Name</td>
-            <td>
-                <form asp-action="Delete" asp-route-id="@role.Id" method="post">
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Удалить
-                    </button>
-                </form>
-            </td>
-        </tr>
-    }
-</table>
-<a asp-action="Create">Добавить роль</a>
-<a asp-action="UserList">Список пользователей</a>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group my-4">
+            <a asp-action="GetAllOrders" class="list-group-item list-group-item-action">Заказы</a>
+            <a asp-action="UserList" class="list-group-item list-group-item-action">Пользователи</a>
+            <a asp-action="GetRole" class="list-group-item list-group-item-action">Роли</a>
+            <a asp-action="AddProduct" class="list-group-item list-group-item-action">Добавление товаров</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card my-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Список ролей</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td>@role.Name</td>
+                                <td>
+                                    <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            Удалить
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <div>
+                        <a asp-action="Create">Добавить роль</a>
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

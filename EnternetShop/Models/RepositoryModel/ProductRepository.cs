@@ -22,9 +22,9 @@ namespace EnternetShop.Models.RepositoryModel
             return await context.Products.ToListAsync();
         }
 
-        public Product GetById(Guid id)
+        public async Task<Product> GetById(Guid id)
         {            
-            return context.Products.FirstOrDefault(p => p.ProductId == id);
+            return await context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

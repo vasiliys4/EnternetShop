@@ -2,6 +2,7 @@ using EnternetShop.Data;
 using EnternetShop.Models;
 using EnternetShop.Models.Identity;
 using EnternetShop.Models.RepositoryModel;
+using EnternetShop.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +23,14 @@ internal class Program
         builder.Services.AddIdentity<UserForDB, IdentityRole>().AddEntityFrameworkStores<UserDBContext>();
 
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
+        builder.Services.AddScoped<ICartRepository, CartRepository>();
+        builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+        builder.Services.AddScoped<CartService>();
+        builder.Services.AddScoped<ProductService>();
+        builder.Services.AddScoped<OrderService>();
+
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddSession();
 
         var app = builder.Build();
 
@@ -51,6 +60,7 @@ internal class Program
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        app.UseSession();
 
         app.UseRouting();
 

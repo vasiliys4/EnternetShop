@@ -6,12 +6,16 @@
 <div class="row">
     <div class="col-md-3">
         <div class="list-group my-4">
-            <a asp-action="GetOrders" class="list-group-item list-group-item-action">Заказы</a>
+            <a asp-action="GetAllOrders" class="list-group-item list-group-item-action">Заказы</a>
             <a asp-action="UserList" class="list-group-item list-group-item-action">Пользователи</a>
             <a asp-action="GetRole" class="list-group-item list-group-item-action">Роли</a>
             <a asp-action="AddProduct" class="list-group-item list-group-item-action">Добавление товаров</a>
         </div>
     </div>
+    <div class="col-md-9">
+        <div class="card my-4">
+            <div class="card-body">
+                <div class="row">
     <form asp-action="Edit" method="post">
         <input type="hidden" name="userId" value="@Model.UserId" />
         <div class="form-group">
@@ -25,4 +29,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
+</div>
+</div>
+</div>
 </div>

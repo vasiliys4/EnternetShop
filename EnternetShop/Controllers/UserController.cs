@@ -1,6 +1,8 @@
 ﻿using EnternetShop.Extention;
 using EnternetShop.Models;
 using EnternetShop.Models.Identity;
+using EnternetShop.Models.ViewModels;
+using EnternetShop.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +13,11 @@ namespace EnternetShop.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<UserForDB> _userManager;
-        public UserController(UserManager<UserForDB> userManager)
+        private readonly OrderService _orderService;
+        public UserController(UserManager<UserForDB> userManager, OrderService orderService)
         {
             _userManager = userManager;
+            _orderService = orderService;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -94,6 +98,17 @@ namespace EnternetShop.Controllers
                 }
             }
             return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetOrders()
+        {
+            var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            var orders = new UserOrdersViewModel
+            {
+                Orders = await _orderService.GetAllByUserId(_userManager.GetUserId(User)),
+                User = new User { Id = user.Id, Email = user.Email, Name = user.FirstName, Surname = user.LastName, PhoneNumber = user.PhoneNumber, }
+            };
+            return View(orders);
         }
     }
 }

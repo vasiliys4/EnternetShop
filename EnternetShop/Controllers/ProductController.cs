@@ -1,20 +1,21 @@
 ﻿using EnternetShop.Models;
 using EnternetShop.Models.RepositoryModel;
+using EnternetShop.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnternetShop.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository)
+        private readonly ProductService _productService;
+        public ProductController(ProductService productService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
         }
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid id)
         {            
-            var products = await _productRepository.GetAll();
+            var products = await _productService.GetProduct(id);
             if (products == null)
             {
                 Redirect("Home/Index");
