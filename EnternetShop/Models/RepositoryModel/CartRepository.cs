@@ -12,27 +12,27 @@ namespace EnternetShop.Models.RepositoryModel
             _context = context;
         }
 
-        public async Task<Cart> AddProduct(Guid id, Guid product)
+        public async Task<Cart> AddProduct(Guid id, Guid productId)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
-            var prod = cart.CartItems.FirstOrDefault(x => x.ProductId == product);
+            var prod = cart.CartItems.FirstOrDefault(x => x.ProductId == productId);
             if (prod != null) 
             {
                 prod.Amount += 1;
             }
             else
             {
-                cart.CartItems.Add(new CartItem { Cart = cart, ProductId = product, Amount = 1, CartItemId = Guid.NewGuid() });
+                cart.CartItems.Add(new CartItem { Cart = cart, ProductId = productId, Amount = 1, CartItemId = Guid.NewGuid() });
             }
             await _context.SaveChangesAsync();
             return cart;
         }
 
-        public async Task<Cart> Create(string userId, Guid product)
+        public async Task<Cart> Create(string userId, Guid productId)
         {
             var cart = new Cart { UserId = userId };
             await _context.Carts.AddAsync(cart);
-            cart.CartItems.Add(new CartItem { Cart = cart, ProductId = product, Amount = 1, CartId = Guid.NewGuid() });
+            cart.CartItems.Add(new CartItem { Cart = cart, ProductId = productId, Amount = 1, CartId = Guid.NewGuid() });
             await _context.SaveChangesAsync();
             return cart;
         }

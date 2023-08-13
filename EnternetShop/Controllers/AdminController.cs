@@ -23,10 +23,6 @@ namespace EnternetShop.Controllers
             _roleManager = roleManager;
             _orderService = orderService;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
         [HttpGet]
         public IActionResult AddProduct()
         {

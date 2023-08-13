@@ -40,16 +40,16 @@
                                 </td>
                                 <td><h5>@item.Price &#8381;</h5></td>
                                 <td>
-                                    <input type="hidden" name="@("Items[" + i + "].Key")" value="@item.Id" />
+                                    <input type="hidden" name="@("Items[" + i + "].Key")" value="@item.CartItemViewModelId" />
                                     <input type="number" min="1" class="form-control text-center" name="@("Items[" + i + "].Value")" value="@item.Amount">
                                     <p class="text-center"><small>@item.Product.Price &#8381;/шт</small></p>
                                 </td>
                                 <td class="actions">
                                     <div class="text-right">
-                                        <button class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="Update">
+                                        <button class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="Update" asp-route-itemId="@item.CartItemViewModelId">
                                             <i class="bi bi-arrow-repeat"></i>
                                         </button>
-                                        <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="DeleteItem" asp-route-itemId="@item.Id" role="button"><i class="bi bi-trash"></i></a>
+                                        <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="DeleteItem" asp-route-itemId="@item.CartItemViewModelId" role="button"><i class="bi bi-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>

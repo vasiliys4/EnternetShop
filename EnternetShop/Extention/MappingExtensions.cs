@@ -9,7 +9,7 @@ namespace EnternetShop.Extention
         {
             return new CartViewModel
             {
-                Id = cart.CartId,
+                CartViewModelId = cart.CartId,
                 Items = cart.CartItems.ToCartItemsViewModel()
             };
         }
@@ -29,7 +29,7 @@ namespace EnternetShop.Extention
         {
             return new CartItemViewModel
             {
-                Id = cartItem.CartId,
+                CartItemViewModelId = cartItem.CartItemId,
                 Amount = cartItem.Amount,
                 Product = cartItem.Product.ToProductViewModel()
             };

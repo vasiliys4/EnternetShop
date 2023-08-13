@@ -2,7 +2,7 @@
 {
     public class CartViewModel
     {
-        public Guid Id { get; set; }
+        public Guid CartViewModelId { get; set; }
         public List<CartItemViewModel> Items { get; set; } = new List<CartItemViewModel>();
 
         public decimal FullPrice => Items.Sum(x => x.Price);

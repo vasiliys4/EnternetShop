@@ -7,31 +7,31 @@ namespace EnternetShop.Services
 {
     public class CartService
     {
-        private readonly ICartRepository cartRepository;
+        private readonly ICartRepository _cartRepository;
 
         public CartService(ICartRepository cartRepository)
         {
-            this.cartRepository = cartRepository;
+            _cartRepository = cartRepository;
         }
 
         public async Task<CartViewModel> AddProductToCart(ProductViewModel productViewModel, string userId)
         {
-            var existingCart = await cartRepository.TryGetByUserId(userId);
-            var product = productViewModel.ToProduct();
+            var existingCart = await _cartRepository.TryGetByUserId(userId);
+            var productVM = productViewModel.ToProduct();
 
             Cart cart;
             if (existingCart == null)
             {
-                cart = await cartRepository.Create(userId, product.Id);
+                cart = await _cartRepository.Create(userId, productVM.Id);
             }
             else
             {
-                cart = await cartRepository.AddProduct(existingCart.CartId, product.Id);
+                cart = await _cartRepository.AddProduct(existingCart.CartId, productVM.Id);
             }
 
             var cartViewModel = new CartViewModel()
             {
-                Id = cart.CartId,
+                CartViewModelId = cart.CartId,
                 Items = cart.CartItems.ToCartItemsViewModel()
             };
             return cartViewModel;
@@ -39,12 +39,12 @@ namespace EnternetShop.Services
 
         public async Task<CartViewModel> GetCurrentCart(string userId)
         {
-            var existingCart = await cartRepository.TryGetByUserId(userId);
+            var existingCart = await _cartRepository.TryGetByUserId(userId);
             if (existingCart != null)
             {
                 return new CartViewModel()
                 {
-                    Id = existingCart.CartId,
+                    CartViewModelId = existingCart.CartId,
                     Items = existingCart.CartItems.ToCartItemsViewModel()
                 };
             }
@@ -57,29 +57,27 @@ namespace EnternetShop.Services
 
         public async Task DeleteItem(string userId, Guid cartItemId)
         {
-            var existingCart = await cartRepository.TryGetByUserId(userId);
-            var cartItem = existingCart.CartItems.FirstOrDefault(x => x.CartId == cartItemId);
-            await cartRepository.DeleteItem(existingCart, cartItem.Product);
+            var existingCart = await _cartRepository.TryGetByUserId(userId);
+            var cartItem = existingCart.CartItems.FirstOrDefault(x => x.CartItemId == cartItemId);
+            await _cartRepository.DeleteItem(existingCart, cartItem.Product);
         }
 
         public async Task UpdateAmount(string userId, Guid cartItemId, int amount)
         {
-            var existingCart = await cartRepository.TryGetByUserId(userId);
+            var existingCart = await _cartRepository.TryGetByUserId(userId);
             if (existingCart != null)
             {
-                var cartItem = existingCart.CartItems.FirstOrDefault(x => x.CartId == cartItemId);
+                var cartItem = existingCart.CartItems.FirstOrDefault(x => x.CartItemId == cartItemId);
                 cartItem.Amount = amount;        
             }
-            await cartRepository.Update(existingCart);
+            await _cartRepository.Update(existingCart);
         }
 
         public async Task DeleteCart(string userId)
         {
-            var existingCart = await cartRepository.TryGetByUserId(userId);
-            if (existingCart != null)
-            {
-                await cartRepository.DeleteCart(userId);
-            }
+            var existingCart = await _cartRepository.TryGetByUserId(userId);
+            if (existingCart == null) return;
+            await _cartRepository.DeleteCart(userId);
         }
     }
 }
