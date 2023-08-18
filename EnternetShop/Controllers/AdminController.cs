@@ -31,12 +31,12 @@ namespace EnternetShop.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(ProductViewModel product)
         {
-            await _productService.Create(product);
+            await _productService.CreateAsync(product);
             return RedirectToAction("AddProduct");
         }
         [HttpGet]
         public IActionResult GetUsers() => View(_userManager.Users.ToList());
-
+        [HttpGet]
         public IActionResult GetRole() => View(_roleManager.Roles.ToList());
         [HttpGet]
         public IActionResult Create() => View();
@@ -115,7 +115,7 @@ namespace EnternetShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
-            var orders = await _orderService.GetAll();
+            var orders = await _orderService.GetAllAsync();
             if (orders == null)
             {
                 Redirect("Admin/Index");
@@ -125,16 +125,17 @@ namespace EnternetShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrder(Guid id)
         {
-            var order = await _orderService.GetOrder(id);
+            var order = await _orderService.GetOrderAsync(id);
             if (order == null)
             {
                 return NotFound();
             }
             return View(order);
         }
+        [HttpPost]
         public async Task<IActionResult> ChangeOrderStatus(string status, Guid id)
         {
-            await _orderService.ChangeStatus(status, id);
+            await _orderService.ChangeStatusAsync(status, id);
             return RedirectToAction("GetOrder", new { id });
         }
     }

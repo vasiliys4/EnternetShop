@@ -21,31 +21,35 @@ namespace EnternetShop.Controllers
             this.userManager = userManager;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await cartService.GetCurrentCart(userManager.GetUserId(User)));
+            return View(await cartService.GetCurrentCartAsync(userManager.GetUserId(User)));
         }
 
+        [HttpPost]
         public async Task<IActionResult> Add(Guid id)
         {
-            var product = await  productService.GetProduct(id);
-            await cartService.AddProductToCart(product, userManager.GetUserId(User));
+            var product = await  productService.GetProductAsync(id);
+            await cartService.AddProductToCartAsync(product, userManager.GetUserId(User));
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public async Task<IActionResult> Update(Dictionary<Guid, int> items)
         {
             foreach (var item in items)
             {
-                await cartService.UpdateAmount(userManager.GetUserId(User), item.Key, item.Value);
+                await cartService.UpdateAmountAsync(userManager.GetUserId(User), item.Key, item.Value);
             }
 
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public async Task<IActionResult> DeleteItem(Guid itemId)
         {
-            await cartService.DeleteItem(userManager.GetUserId(User), itemId);
+            await cartService.DeleteItemAsync(userManager.GetUserId(User), itemId);
             return RedirectToAction("Index");
         }
     }

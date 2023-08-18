@@ -11,9 +11,9 @@ namespace EnternetShop.Models.RepositoryModel
         {
             _context = context;
         }
-        public async Task<Order>? TryGetByUserId(string userId)
+        public async Task<Order>? TryGetByUserIdAsync(string userId)
         {
-            var orders = await GetAll();
+            var orders = await GetAllAsync();
             foreach (var order in orders)
             {
                 if (order.UserId == userId && order.Status == null)
@@ -24,9 +24,9 @@ namespace EnternetShop.Models.RepositoryModel
             return null;
         }
 
-        public async Task<List<Order>> TryGetAllByUserId(string userId)
+        public async Task<List<Order>> TryGetAllByUserIdAsync(string userId)
         {
-            var allOrders = await GetAll();
+            var allOrders = await GetAllAsync();
             var orders = new List<Order>();
             foreach (var order in allOrders)
             {
@@ -38,27 +38,27 @@ namespace EnternetShop.Models.RepositoryModel
             return orders;
         }
 
-        public async Task<List<Order>> GetAll()
+        public async Task<List<Order>> GetAllAsync()
         {
             return await _context.Order.AsNoTracking().Include(o => o.OrderItems).ThenInclude(p => p.Product).ToListAsync();
         }
 
-        public async Task AddProduct(Guid orderId, Product product, int amount)
+        public async Task AddProductAsync(Guid orderId, Product product, int amount)
         {
             var order = await _context.Order.FirstOrDefaultAsync(x => x.Id == orderId);
             order.OrderItems.Add(new OrderItem { Order = order, Product = product, Amount = amount, Id = Guid.NewGuid() });
             _context.SaveChanges();
         }
 
-        public async Task Create(string userId, Guid product, int amount)
+        public async Task CreateAsync(string userId, Guid product, int amount)
         {
-            var order = new Order { UserId = userId, Number = (await GetAll()).Count + 1 };
+            var order = new Order { UserId = userId, Number = (await GetAllAsync()).Count + 1 };
             await _context.Order.AddAsync(order);
             order.OrderItems.Add(new OrderItem { Order = order, ProductId = product, Amount = amount, Id = Guid.NewGuid() });
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddInformation(Order orderInfo)
+        public async Task AddInformationAsync(Order orderInfo)
         {
             var order = await _context.Order.FirstOrDefaultAsync(x => x.Id == orderInfo.Id);
             if (orderInfo.UserAddress != null)
@@ -80,16 +80,16 @@ namespace EnternetShop.Models.RepositoryModel
             await _context.SaveChangesAsync();
         }
 
-        public async Task ChangeStatus(string status, Guid orderId)
+        public async Task ChangeStatusAsync(string status, Guid orderId)
         {
             var order = await _context.Order.FirstOrDefaultAsync(x => x.Id == orderId);
             order.Status = status;
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Order> TryGetByOrderId(Guid orderId)
+        public async Task<Order> TryGetByOrderIdAsync(Guid orderId)
         {
-            var orders = await GetAll();
+            var orders = await GetAllAsync();
             foreach (var order in orders)
             {
                 if (order.Id == orderId)

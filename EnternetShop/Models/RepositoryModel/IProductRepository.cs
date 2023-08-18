@@ -2,8 +2,8 @@
 {
     public interface IProductRepository
     {
-        Task<List<Product>> GetAll();
-        Task<Product> GetById(Guid id);
-        Task Create(Product product);
+        Task<List<Product>> GetAllAsync();
+        Task<Product> GetByIdAsync(Guid id);
+        Task CreateAsync(Product product);
     }
 }

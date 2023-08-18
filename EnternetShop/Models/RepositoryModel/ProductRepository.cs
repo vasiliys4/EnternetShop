@@ -5,26 +5,26 @@ namespace EnternetShop.Models.RepositoryModel
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly ApplicationDBContext context;
+        private readonly ApplicationDBContext _context;
         public ProductRepository(ApplicationDBContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public async Task Create(Product product)
+        public async Task CreateAsync(Product product)
         {
-            await context.Products.AddAsync(product);
-            await context.SaveChangesAsync();
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Product>> GetAll()
+        public async Task<List<Product>> GetAllAsync()
         {
-            return await context.Products.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
-        public async Task<Product> GetById(Guid id)
+        public async Task<Product> GetByIdAsync(Guid id)
         {            
-            return await context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

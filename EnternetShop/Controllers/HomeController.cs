@@ -18,12 +18,14 @@ namespace EnternetShop.Controllers
             _productService = productService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var products = await _productService.GetAllProducts();
+            var products = await _productService.GetAllProductsAsync();
             return View(products);
         }
 
+        [HttpPost]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

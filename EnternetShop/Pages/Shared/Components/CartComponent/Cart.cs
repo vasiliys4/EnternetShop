@@ -32,12 +32,12 @@ namespace EnternetShop.Pages.Shared.Components.CartComponent
             if (signInManager.IsSignedIn(HttpContext.User))
             {
                 var userId = userManager.GetUserId(HttpContext.User);
-                return await cartService.GetCurrentCart(userId);
+                return await cartService.GetCurrentCartAsync(userId);
             }
             string anonymousId = GetBasketIdFromCookie();
             if (anonymousId == null)
                 return new CartViewModel();
-            return await cartService.GetCurrentCart(anonymousId);
+            return await cartService.GetCurrentCartAsync(anonymousId);
         }
 
         private string GetBasketIdFromCookie()

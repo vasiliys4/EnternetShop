@@ -15,9 +15,9 @@ namespace EnternetShop.Services
             this.appEnvironment = appEnvironment;
         }
 
-        public async Task<List<ProductViewModel>> GetAllProducts()
+        public async Task<List<ProductViewModel>> GetAllProductsAsync()
         {
-            var products = await productRepository.GetAll();
+            var products = await productRepository.GetAllAsync();
             var productsViewModel = new List<ProductViewModel>();
             foreach (var product in products)
             {
@@ -27,20 +27,20 @@ namespace EnternetShop.Services
             return productsViewModel;
         }
 
-        public async Task<ProductViewModel> GetProduct(Guid id)
+        public async Task<ProductViewModel> GetProductAsync(Guid id)
         {
-            var product = await productRepository.GetById(id);
+            var product = await productRepository.GetByIdAsync(id);
             var productViewModel = product.ToProductViewModel();
             return productViewModel;
         }
-        public async Task Create(ProductViewModel productViewModel)
+        public async Task CreateAsync(ProductViewModel productViewModel)
         {
             if (productViewModel.File != null)
             {
                 string path = "/images/products/" + productViewModel.File.FileName;
                 productViewModel.File.CopyTo(new FileStream(appEnvironment.WebRootPath + path, FileMode.Create));
             }
-            await productRepository.Create(productViewModel.ToProduct());
+            await productRepository.CreateAsync(productViewModel.ToProduct());
         }
     }
 }

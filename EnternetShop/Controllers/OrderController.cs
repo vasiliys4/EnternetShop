@@ -21,6 +21,7 @@ namespace EnternetShop.Controllers
             this.cartService = cartService;
         }
 
+        [HttpGet]
         public IActionResult Thanks()
         {
             return View();
@@ -32,7 +33,7 @@ namespace EnternetShop.Controllers
             var orderViewModel = new OrderViewModel();
             foreach (var item in items)
             {
-                var product = await productService.GetProduct(item.Key);
+                var product = await productService.GetProductAsync(item.Key);
                 orderViewModel.OrderItems.Add(new OrderItemViewModel { Product = product, Amount = item.Value, Id = Guid.NewGuid() });
             }
             return View(orderViewModel);
@@ -43,11 +44,11 @@ namespace EnternetShop.Controllers
         {            
             foreach (var item in items)
             {
-                var product = await productService.GetProduct(item.Key);
-                await orderService.AddProductToOrder(userManager.GetUserId(User), product, item.Value);
+                var product = await productService.GetProductAsync(item.Key);
+                await orderService.AddProductToOrderAsync(userManager.GetUserId(User), product, item.Value);
             }
-            await orderService.AddInformation(userManager.GetUserId(User), orderViewModel);
-            await cartService.DeleteCart(userManager.GetUserId(User));
+            await orderService.AddInformationAsync(userManager.GetUserId(User), orderViewModel);
+            await cartService.DeleteCartAsync(userManager.GetUserId(User));
             return RedirectToAction("Thanks");
         }
     }

@@ -13,30 +13,30 @@ namespace EnternetShop.Services
             _orderRepository = orderRepository;
         }
 
-        public async Task AddProductToOrder(string userId, ProductViewModel productViewModel, int amount)
+        public async Task AddProductToOrderAsync(string userId, ProductViewModel productViewModel, int amount)
         {
-            var existingOrder = await _orderRepository.TryGetByUserId(userId);
+            var existingOrder = await _orderRepository.TryGetByUserIdAsync(userId);
             var product = productViewModel.ToProduct();
             if (existingOrder == null)
             {
-                await _orderRepository.Create(userId, product.Id, amount);
+                await _orderRepository.CreateAsync(userId, product.Id, amount);
             }
             else
             {
-                await _orderRepository.AddProduct(existingOrder.Id, product, amount);
+                await _orderRepository.AddProductAsync(existingOrder.Id, product, amount);
             }
         }
 
-        public async Task AddInformation(string userId, OrderViewModel orderViewModelInfo)
+        public async Task AddInformationAsync(string userId, OrderViewModel orderViewModelInfo)
         {
             var orderInfo = orderViewModelInfo.ToOrderInfo();
-            orderInfo.Id = (await _orderRepository.TryGetByUserId(userId)).Id;
-            await _orderRepository.AddInformation(orderInfo);
+            orderInfo.Id = (await _orderRepository.TryGetByUserIdAsync(userId)).Id;
+            await _orderRepository.AddInformationAsync(orderInfo);
         }
 
         public async Task<List<OrderViewModel>> GetAllByUserId(string userId)
         {
-            var userOrders = await _orderRepository.TryGetAllByUserId(userId);
+            var userOrders = await _orderRepository.TryGetAllByUserIdAsync(userId);
             var orderViewModels = new List<OrderViewModel>();
             if (userOrders != null)
             {
@@ -48,9 +48,9 @@ namespace EnternetShop.Services
             return orderViewModels;
         }
 
-        public async Task<List<OrderViewModel>> GetAll()
+        public async Task<List<OrderViewModel>> GetAllAsync()
         {
-            var allOrders = await _orderRepository.GetAll();
+            var allOrders = await _orderRepository.GetAllAsync();
             var orderViewModels = new List<OrderViewModel>();
             if (allOrders != null)
             {
@@ -62,15 +62,15 @@ namespace EnternetShop.Services
             return orderViewModels;
         }
 
-        public async Task<OrderViewModel> GetOrder(Guid id)
+        public async Task<OrderViewModel> GetOrderAsync(Guid id)
         {
-            return (await _orderRepository.TryGetByOrderId(id)).ToOrderViewModel();
+            return (await _orderRepository.TryGetByOrderIdAsync(id)).ToOrderViewModel();
         }
 
-        public async Task ChangeStatus(string status, Guid id)
+        public async Task ChangeStatusAsync(string status, Guid id)
         {
-            var existingOrder = await _orderRepository.TryGetByOrderId(id);
-            await _orderRepository.ChangeStatus(status, existingOrder.Id);
+            var existingOrder = await _orderRepository.TryGetByOrderIdAsync(id);
+            await _orderRepository.ChangeStatusAsync(status, existingOrder.Id);
         }
     }
 }

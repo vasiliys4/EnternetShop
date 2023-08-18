@@ -12,7 +12,7 @@ namespace EnternetShop.Models.RepositoryModel
             _context = context;
         }
 
-        public async Task<Cart> AddProduct(Guid id, Guid productId)
+        public async Task<Cart> AddProductAsync(Guid id, Guid productId)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
             var prod = cart.CartItems.FirstOrDefault(x => x.ProductId == productId);
@@ -28,7 +28,7 @@ namespace EnternetShop.Models.RepositoryModel
             return cart;
         }
 
-        public async Task<Cart> Create(string userId, Guid productId)
+        public async Task<Cart> CreateAsync(string userId, Guid productId)
         {
             var cart = new Cart { UserId = userId };
             await _context.Carts.AddAsync(cart);
@@ -37,13 +37,13 @@ namespace EnternetShop.Models.RepositoryModel
             return cart;
         }
 
-        public async Task DeleteCart(string userId)
+        public async Task DeleteCartAsync(string userId)
         {
-            _context.Carts.Remove(await TryGetByUserId(userId));
+            _context.Carts.Remove(await TryGetByUserIdAsync(userId));
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteItem(Cart existingCart, Product product)
+        public async Task DeleteItemAsync(Cart existingCart, Product product)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == existingCart.CartId);
             var cartItem = cart.CartItems.FirstOrDefault(x => x.ProductId == product.Id);
@@ -51,13 +51,13 @@ namespace EnternetShop.Models.RepositoryModel
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Cart> TryGetByUserId(string userId)
+        public async Task<Cart> TryGetByUserIdAsync(string userId)
         {
             var cart = await _context.Carts.Include(c => c.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(i => i.UserId == userId);
             return cart;
         }
 
-        public async Task Update(Cart existingCart)
+        public async Task UpdateAsync(Cart existingCart)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == existingCart.CartId);
             cart = existingCart;

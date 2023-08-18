@@ -12,10 +12,11 @@ namespace EnternetShop.Controllers
         {
             _productService = productService;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index(Guid id)
         {            
-            var products = await _productService.GetProduct(id);
+            var products = await _productService.GetProductAsync(id);
             if (products == null)
             {
                 Redirect("Home/Index");

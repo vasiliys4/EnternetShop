@@ -7,9 +7,11 @@
 @foreach (var item in Model)
 {
     <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="Код">
+        <img src="@item.ImagePath" class="card-img-top" alt="Код">
         <div class="card-body">
-            <h5 class="card-title">@item.Name</h5>
+            <h5 class="card-title">
+                <a class="text-dark" asp-controller="Product" asp-route-id="@item.Id">@item.Name</a>
+                </h5>
             <p class="card-text">@item.Description</p>
             <p><span class="card-subtitle"><strong>@item.Price руб</strong></span></p>
             @if (User.Identity.IsAuthenticated)

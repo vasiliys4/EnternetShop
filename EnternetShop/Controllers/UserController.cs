@@ -19,6 +19,7 @@ namespace EnternetShop.Controllers
             _userManager = userManager;
             _orderService = orderService;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -26,6 +27,7 @@ namespace EnternetShop.Controllers
             var model = new User { Id = user.Id, Email = user.Email, Name = user.FirstName, Surname = user.LastName, PhoneNumber = user.PhoneNumber };
             return View(model);
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -37,6 +39,7 @@ namespace EnternetShop.Controllers
             var model = new User { Id = user.Id, Email = user.Email, Name = user.FirstName, Surname = user.LastName, PhoneNumber = user.PhoneNumber };
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(User model)
         {
@@ -63,6 +66,7 @@ namespace EnternetShop.Controllers
             }
             return View(model);
         }
+
         [HttpGet]
         public async Task<IActionResult> ChangePassword(string id)
         {
@@ -74,6 +78,7 @@ namespace EnternetShop.Controllers
             var model = new User { Id = user.Id, Email = user.Email, Name = user.FirstName };
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> ChangePassword(User model)
         {
@@ -99,6 +104,7 @@ namespace EnternetShop.Controllers
             }
             return View(model);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
