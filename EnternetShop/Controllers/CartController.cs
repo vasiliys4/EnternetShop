@@ -27,7 +27,7 @@ namespace EnternetShop.Controllers
             return View(await cartService.GetCurrentCartAsync(userManager.GetUserId(User)));
         }
 
-        [HttpPost]
+
         public async Task<IActionResult> Add(Guid id)
         {
             var product = await  productService.GetProductAsync(id);
@@ -46,7 +46,7 @@ namespace EnternetShop.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> DeleteItem(Guid itemId)
         {
             await cartService.DeleteItemAsync(userManager.GetUserId(User), itemId);

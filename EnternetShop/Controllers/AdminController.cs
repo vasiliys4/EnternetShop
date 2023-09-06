@@ -132,7 +132,7 @@ namespace EnternetShop.Controllers
             }
             return View(order);
         }
-        [HttpPost]
+
         public async Task<IActionResult> ChangeOrderStatus(string status, Guid id)
         {
             await _orderService.ChangeStatusAsync(status, id);
