@@ -1,11 +1,9 @@
 using EnternetShop.Data;
-using EnternetShop.Models;
 using EnternetShop.Models.Identity;
 using EnternetShop.Models.RepositoryModel;
 using EnternetShop.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 internal class Program
 {

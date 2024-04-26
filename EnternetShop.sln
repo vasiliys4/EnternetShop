@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnternetShop", "EnternetShop\EnternetShop.csproj", "{EA995496-1577-49CB-ACE4-70577BD94BDE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7FB81ADF-38B5-4FF2-8B0F-DB79C91EDD2C} = {7FB81ADF-38B5-4FF2-8B0F-DB79C91EDD2C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailAssistent", "EmailAssistent\EmailAssistent.csproj", "{7FB81ADF-38B5-4FF2-8B0F-DB79C91EDD2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailAssistent", "EmailAssistent\EmailAssistent.csproj", "{7FB81ADF-38B5-4FF2-8B0F-DB79C91EDD2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

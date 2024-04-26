@@ -46,7 +46,7 @@ namespace EnternetShop.Models.RepositoryModel
         public async Task AddProductAsync(Guid orderId, Product product, int amount)
         {
             var order = await _context.Order.FirstOrDefaultAsync(x => x.Id == orderId);
-            order.OrderItems.Add(new OrderItem { Order = order, Product = product, Amount = amount, Id = Guid.NewGuid() });
+            order.OrderItems.Add(new OrderItem { OrderId = order.Id, ProductId = product.Id, Amount = amount, Id = Guid.NewGuid() });
             _context.SaveChanges();
         }
 

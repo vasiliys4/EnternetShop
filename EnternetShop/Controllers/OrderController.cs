@@ -1,9 +1,9 @@
-﻿using EnternetShop.Models;
-using EnternetShop.Models.Identity;
+﻿using EnternetShop.Models.Identity;
 using EnternetShop.Models.ViewModels;
 using EnternetShop.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using EmailAssistent;
 
 namespace EnternetShop.Controllers
 {
@@ -49,6 +49,13 @@ namespace EnternetShop.Controllers
             }
             await orderService.AddInformationAsync(userManager.GetUserId(User), orderViewModel);
             await cartService.DeleteCartAsync(userManager.GetUserId(User));
+            //return RedirectToAction("SendMessage");
+            return RedirectToAction("Thanks");
+        }
+        public async Task<IActionResult> SendMessage()
+        {
+            EmailHelper emailService = new EmailHelper();
+            await emailService.SendEmailAsync("sentemovv55@gmail.com", "Тема письма", "Тест письма: тест!");
             return RedirectToAction("Thanks");
         }
     }

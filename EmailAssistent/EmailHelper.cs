@@ -20,7 +20,7 @@ namespace EmailAssistent
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync("smtp.yandex.ru", 25, false);
-                await client.AuthenticateAsync("login@yandex.ru", "password");
+                await client.AuthenticateAsync("sentemov.vasily@yandex.ru", "11zx22cv33BVc");
                 await client.SendAsync(emailMessage);
 
                 await client.DisconnectAsync(true);

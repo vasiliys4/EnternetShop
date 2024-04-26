@@ -46,7 +46,7 @@ namespace EnternetShop.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
+
         public async Task<IActionResult> DeleteItem(Guid itemId)
         {
             await cartService.DeleteItemAsync(userManager.GetUserId(User), itemId);
