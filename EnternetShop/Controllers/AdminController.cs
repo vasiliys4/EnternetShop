@@ -138,5 +138,18 @@ namespace EnternetShop.Controllers
             await _orderService.ChangeStatusAsync(status, id);
             return RedirectToAction("GetOrder", new { id });
         }
+        [HttpGet]
+        public async Task<IActionResult> DeleteProduct()
+        {
+            var products = await _productService.GetAllProductsAsync();
+            return View(products);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(Guid id)
+        {
+            var productView = await _productService.GetProductAsync(id);
+            await _productService.DeleteProductAsync(productView);
+            return RedirectToAction("DeleteProduct");
+        }
     }
 }

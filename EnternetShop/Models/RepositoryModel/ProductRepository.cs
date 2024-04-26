@@ -26,5 +26,11 @@ namespace EnternetShop.Models.RepositoryModel
         {            
             return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
+        public async Task<Product> DeleteProductAsync(Product product)
+        {
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return product;
+        }
     }
 }

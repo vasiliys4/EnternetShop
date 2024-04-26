@@ -1,4 +1,5 @@
 ﻿using EnternetShop.Extention;
+using EnternetShop.Models;
 using EnternetShop.Models.RepositoryModel;
 using EnternetShop.Models.ViewModels;
 
@@ -41,6 +42,12 @@ namespace EnternetShop.Services
                 productViewModel.File.CopyTo(new FileStream(appEnvironment.WebRootPath + path, FileMode.Create));
             }
             await productRepository.CreateAsync(productViewModel.ToProduct());
+        }
+        public async Task<ProductViewModel> DeleteProductAsync(ProductViewModel productView)
+        {
+            var product = await productRepository.GetByIdAsync(productView.Id);
+            await productRepository.DeleteProductAsync(product);
+            return productView;
         }
     }
 }
