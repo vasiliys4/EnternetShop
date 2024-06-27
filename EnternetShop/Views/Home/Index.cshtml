@@ -3,21 +3,24 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-@foreach (var item in Model)
-{
-    <div class="card" style="width: 18rem;">
-        <img src="@item.ImagePath" class="card-img-top" alt="Код">
-        <div class="card-body">
-            <h5 class="card-title">
-                <a class="text-dark" asp-controller="Product" asp-route-id="@item.Id">@item.Name</a>
-                </h5>
-            <p class="card-text">@item.Description</p>
-            <p><span class="card-subtitle"><strong>@item.Price руб</strong></span></p>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a href="/cart/add/@item.Id" class="btn btn-primary">Добавить в корзину</a>
-            }            
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card text-center h-100 border-secondary" style="box-shadow: 10px 4px 5px 3px #888;">
+                <img src="@item.ImagePath" class="card-img-top h-100" alt="Код">
+                <div class="card-body text-dark h-100">
+                    <h5 class="card-title h-100">
+                        <a class="text-dark" asp-controller="Product" asp-route-id="@item.Id">@item.Name</a>
+                    </h5>
+                    <p class="card-text h-100">@item.Description</p>
+                    <p><span class="card-subtitle"><strong>@item.Price руб</strong></span></p>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a href="/cart/add/@item.Id" class="btn btn-primary border-success">Добавить в корзину</a>
+                    }            
+                </div>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
