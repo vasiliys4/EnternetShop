@@ -10,7 +10,7 @@ namespace EnternetShop.Models.Identity
             if ((await userManager.FindByEmailAsync("admin@gmail.com")) == null)
             {
                 await userManager.CreateAsync(defaultUser, "_Aa123456");
-                var roleName = "Admin";
+                var roleName = "admin";
                 await roleManager.CreateAsync(new IdentityRole(roleName));
                 await userManager.AddToRoleAsync(defaultUser, roleName);
             }

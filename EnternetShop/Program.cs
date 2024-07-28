@@ -15,8 +15,9 @@ internal class Program
         builder.Services.AddControllersWithViews();
 
         string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
+        string? connectionUser = builder.Configuration.GetConnectionString("ConectionUser");
         builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connection));
-        builder.Services.AddDbContext<UserDBContext>(options => options.UseSqlServer(connection));
+        builder.Services.AddDbContext<UserDBContext>(options => options.UseSqlServer(connectionUser));
 
         builder.Services.AddIdentity<UserForDB, IdentityRole>().AddEntityFrameworkStores<UserDBContext>();
 
