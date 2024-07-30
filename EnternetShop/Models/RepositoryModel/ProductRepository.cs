@@ -19,7 +19,10 @@ namespace EnternetShop.Models.RepositoryModel
 
         public async Task<List<Product>> GetAllAsync()
         {
-            return await _context.Products.ToListAsync();
+            var query = from p in _context.Products
+                        select p;
+            return await query.ToListAsync();
+            //return await _context.Products.ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(Guid id)
@@ -31,6 +34,15 @@ namespace EnternetShop.Models.RepositoryModel
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return product;
+        }
+        public async Task EditProductAsync(Product product)
+        {
+            var oldProduct = await _context.Products.FirstOrDefaultAsync(x => x.Id == product.Id);
+            oldProduct.Name = product.Name;
+            oldProduct.Description = product.Description;
+            oldProduct.Price = product.Price;
+            oldProduct.ImagePath = product.ImagePath;
+            await _context.SaveChangesAsync();
         }
     }
 }

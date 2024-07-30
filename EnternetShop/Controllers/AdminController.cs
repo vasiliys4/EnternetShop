@@ -32,7 +32,7 @@ namespace EnternetShop.Controllers
         public async Task<IActionResult> AddProduct(ProductViewModel product)
         {
             await _productService.CreateAsync(product);
-            return RedirectToAction("AddProduct");
+            return RedirectToAction("GetAllOrders");
         }
         [HttpGet]
         public IActionResult GetUsers() => View(_userManager.Users.ToList());
@@ -150,6 +150,18 @@ namespace EnternetShop.Controllers
             var productView = await _productService.GetProductAsync(id);
             await _productService.DeleteProductAsync(productView);
             return RedirectToAction("DeleteProduct");
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(Guid id)
+        {
+            var product = await _productService.GetProductAsync(id);
+            return View(product);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(ProductViewModel productView)
+        {
+            await _productService.EditProductAsync(productView);
+            return RedirectToAction("EditProduct");
         }
     }
 }

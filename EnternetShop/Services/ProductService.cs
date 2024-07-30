@@ -49,5 +49,14 @@ namespace EnternetShop.Services
             await productRepository.DeleteProductAsync(product);
             return productView;
         }
+        public async Task EditProductAsync(ProductViewModel productView)
+        {
+            if (productView.File != null)
+            {
+                string path = "/images/products/" + productView.File.FileName;
+                productView.File.CopyTo(new FileStream(appEnvironment.WebRootPath + path, FileMode.Create));
+            }
+            await productRepository.EditProductAsync(productView.ToProduct());
+        }
     }
 }

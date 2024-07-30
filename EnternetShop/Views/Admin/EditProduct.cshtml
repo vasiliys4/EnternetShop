@@ -1,0 +1,83 @@
+﻿@model EnternetShop.Models.ViewModels.ProductViewModel
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="EditProduct" asp-antiforgery="true" enctype="multipart/form-data">
+<div class="album py-5">
+    <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="mdb-lightbox">
+                <div class="row product-gallery mx-1">
+                    <div class="col-12 mb-0">
+                        <img class="card-img-top" src="@Url.Content(Model.ImagePath)" alt="Изображение товара" />
+                    </div>
+                </div>
+            </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="File">Загрузить изображение</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="file" asp-for="File" class="form-control-file">
+                    </div>
+                </div>
+        </div>
+        <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-8">
+                        <input type="text" asp-for="Name" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-8">
+                        <input asp-for="Price" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-8">
+                        <textarea asp-for="Description" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+            <div class="table-responsive mb-2"></div>
+            <button asp-action="EditProduct">Изменить</button>
+        </div>
+    </div>
+</div>
+</form>
+@* <form asp-action="AddProduct" asp-antiforgery="true" enctype="multipart/form-data">
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Name">Название</label>
+        </div>
+        <div class="col-8">
+            <input type="text" asp-for="Name" class="form-control" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Price">Цена</label>
+        </div>
+        <div class="col-8">
+            <input asp-for="Price" class="form-control" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Description">Описание</label>
+        </div>
+        <div class="col-8">
+            <textarea asp-for="Description" class="form-control" rows="3" required></textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="File">Загрузить изображение</label>
+        </div>
+        <div class="col-8">
+            <input type="file" asp-for="File" class="form-control-file">
+        </div>
+    </div>
+    <div class="text-right">
+        <button type="submit" class="btn btn-info">Добавить</button>
+    </div>
+</form> *@
